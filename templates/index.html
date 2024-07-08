@@ -15,6 +15,12 @@
         .viewport {
             margin-top: 20px;
         }
+        .opinion-buttons {
+            margin-top: 10px;
+        }
+        .opinion-buttons button {
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
@@ -34,13 +40,14 @@
         document.getElementById('locationForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const location = document.getElementById('location').value;
+            const radius = document.getElementById('radius').value;
 
             fetch('/find_places', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `location=${encodeURIComponent(location)}`
+                body: `location=${encodeURIComponent(location)}&radius=${encodeURIComponent(radius)}`
             })
             .then(response => response.json())
             .then(data => {
@@ -60,7 +67,12 @@
                             Address: ${restaurant.address}<br>
                             Rating: ${restaurant.rating}<br>
                             Open Now: ${restaurant.open_now}<br>
-                            Total Ratings: ${restaurant.total_ratings}
+                            Total Ratings: ${restaurant.total_ratings}<br>
+                            <div class="opinion-buttons">
+                                <button onclick="submitOpinion(${restaurant.id}, 'like')">Like</button>
+                                <button onclick="submitOpinion(${restaurant.id}, 'dislike')">Dislike</button>
+                                <button onclick="submitOpinion(${restaurant.id}, 'no_opinion')">No Opinion</button>
+                            </div>
                         `;
                         resultsDiv.appendChild(restaurantDiv);
                     });
@@ -77,6 +89,27 @@
                 console.error('Error:', error);
             });
         });
+
+        function submitOpinion(restaurantId, opinion) {
+            fetch('/opinion', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `restaurant_id=${restaurantId}&opinion=${opinion}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Opinion submitted successfully!');
+                } else {
+                    alert('Error submitting opinion.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
     </script>
 </body>
 </html>
