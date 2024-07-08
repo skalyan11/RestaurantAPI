@@ -1,8 +1,10 @@
 import requests
 import json
+from flask import Flask, request, jsonify, render_template
 from place_convert import get_coordinates as gc
 from place_convert import create_viewport as cv
 
+app = Flask(__name__)
 
 def find_places(location):
     place_name = location
@@ -13,7 +15,6 @@ def find_places(location):
         location_string = f"{latitude},{longitude}"
 
         url = "https://map-places.p.rapidapi.com/nearbysearch/json"
-
         querystring = {"location": location_string, "radius": "3000", "type": "restaurant"}  # Radius in meters
 
         headers = {
@@ -38,12 +39,30 @@ def find_places(location):
                 }
                 simple_restaurant_data.append(restaurant_info)
 
-            # Convert our list of simplified data to a JSON string for nicer formatting
-            formatted_json = json.dumps(simple_restaurant_data, indent=4)
-            print(formatted_json)
+            viewport = cv(latitude, longitude, lat_offset=0.002, lng_offset=0.002)
+            return simple_restaurant_data, viewport
         else:
             print(f"Error occurred: {response.status_code}")
-
-        viewport = cv(latitude, longitude, lat_offset=0.002, lng_offset=0.002)
+            return None, None
     else:
         print("Error: Unable to get coordinates for the specified place.")
+        return None, None
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/find_places', methods=['POST'])
+def find_places_endpoint():
+    location = request.form['location']
+    restaurants, viewport = find_places(location)
+    if restaurants is not None:
+        return jsonify({'restaurants': restaurants, 'viewport': viewport})
+    else:
+        return jsonify({'error': 'Unable to find places'}), 500
+
+def main():
+    app.run(debug=True)
+
+if __name__ == '__main__':
+    main()
