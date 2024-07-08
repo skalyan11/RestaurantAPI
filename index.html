@@ -1,64 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Finder</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Find Places</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #results {
+            margin-top: 20px;
+        }
+        .restaurant {
+            margin-bottom: 10px;
+        }
+        .viewport {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1>Restaurant Finder</h1>
-        <div id="restaurants-list" class="row">
-            <!-- Restaurants will be added here -->
-        </div>
-    </div>
-
+    <h1>Find Nearby Restaurants</h1>
+    <form id="locationForm">
+        <label for="location">Enter location:</label>
+        <input type="text" id="location" name="location">
+        <button type="submit">Find</button>
+    </form>
+    <div id="results"></div>
+    <div id="viewport"></div>
     <script>
-        $(function() {
-            var place_name = 'Naperville Illinois'; // This should be set dynamically as needed
-            var location_string = '41.7508391,-88.1535352'; // Coordinates
-            var querystring = {
-                "location": location_string,
-                "radius": "30",
-                "type": "restaurant"
-            };
+        document.getElementById('locationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const location = document.getElementById('location').value;
 
-            var headers = {
-                "x-rapidapi-key": "8e6c13aa22msh3f97d2cafc6450cp15db5ajsn5400b369bf56",
-                "x-rapidapi-host": "map-places.p.rapidapi.com"
-            };
-
-            $.ajax({
-                url: "https://map-places.p.rapidapi.com/nearbysearch/json",
-                method: "GET",
-                headers: headers,
-                data: querystring,
-                success: function(response) {
-                    var restaurants = response.results;
-
-                    restaurants.forEach(function(restaurant) {
-                        var restaurantElement = 
-                        '<div class="col-md-4">' +
-                            '<div class="card mb-4 box-shadow">' +
-                                '<img class="card-img-top" src="REPLACE_WITH_IMG_URL" alt="Restaurant image">' +
-                                '<div class="card-body">' +
-                                    '<p class="card-text"><strong>' + restaurant.name + '</strong></p>' +
-                                    '<p class="card-text">' + restaurant.vicinity + '</p>' +
-                                    '<p class="card-text">Rating: ' + (restaurant.rating || 'No rating') + '</p>' +
-                                    '<p class="card-text">Open now: ' + (restaurant.opening_hours && restaurant.opening_hours.open_now === true ? 'Yes' : 'No') + '</p>' +
-                                    '<p class="card-text">Total ratings: ' + (restaurant.user_ratings_total || '0') + '</p>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>';
-
-                        $("#restaurants-list").append(restaurantElement);
-                    });
+            fetch('/find_places', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                error: function(xhr, status, error) {
-                    console.error(error);
+                body: `location=${encodeURIComponent(location)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('results');
+                const viewportDiv = document.getElementById('viewport');
+                resultsDiv.innerHTML = '';
+                viewportDiv.innerHTML = '';
+
+                if (data.error) {
+                    resultsDiv.innerHTML = `<p>${data.error}</p>`;
+                } else {
+                    data.restaurants.forEach(restaurant => {
+                        const restaurantDiv = document.createElement('div');
+                        restaurantDiv.classList.add('restaurant');
+                        restaurantDiv.innerHTML = `
+                            <strong>${restaurant.name}</strong><br>
+                            Address: ${restaurant.address}<br>
+                            Rating: ${restaurant.rating}<br>
+                            Open Now: ${restaurant.open_now}<br>
+                            Total Ratings: ${restaurant.total_ratings}
+                        `;
+                        resultsDiv.appendChild(restaurantDiv);
+                    });
+
+                    const viewportDivContent = `
+                        <strong>Viewport</strong><br>
+                        Northeast: (${data.viewport.northeast.lat}, ${data.viewport.northeast.lng})<br>
+                        Southwest: (${data.viewport.southwest.lat}, ${data.viewport.southwest.lng})
+                    `;
+                    viewportDiv.innerHTML = viewportDivContent;
                 }
+            })
+            .catch(error => {
+                console.error('Error:', error);
             });
         });
     </script>
