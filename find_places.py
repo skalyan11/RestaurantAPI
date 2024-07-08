@@ -6,7 +6,7 @@ from place_convert import create_viewport as cv
 
 app = Flask(__name__)
 
-def find_places(location):
+def find_places(location, radius):
     place_name = location
     coordinates = gc(place_name)
 
@@ -15,7 +15,7 @@ def find_places(location):
         location_string = f"{latitude},{longitude}"
 
         url = "https://map-places.p.rapidapi.com/nearbysearch/json"
-        querystring = {"location": location_string, "radius": "3000", "type": "restaurant"}  # Radius in meters
+        querystring = {"location": location_string, "radius": radius, "type": "restaurant"}  # Radius in meters
 
         headers = {
             "x-rapidapi-key": "8e6c13aa22msh3f97d2cafc6450cp15db5ajsn5400b369bf56",  # Replace with your actual API key
@@ -55,6 +55,7 @@ def index():
 @app.route('/find_places', methods=['POST'])
 def find_places_endpoint():
     location = request.form['location']
+    radius = request.form['radius']
     restaurants, viewport = find_places(location)
     if restaurants is not None:
         return jsonify({'restaurants': restaurants, 'viewport': viewport})
