@@ -125,6 +125,24 @@ def opinions():
     return jsonify(restaurant_opinions)
 
 
+@app.route('/top_restaurants', methods=['GET', 'POST'])
+def top_restaurants():
+    if request.method == 'POST':
+        criteria = request.form['criteria']
+        if criteria == 'most_likes':
+            top_restaurants = db.session.query(Restaurant, db.func.count(Opinion.id).label('total_likes')).join(
+                Opinion).filter(Opinion.opinion == 'like').group_by(Restaurant.id).order_by(
+                db.desc('total_likes')).limit(3).all()
+        elif criteria == 'most_dislikes':
+            top_restaurants = db.session.query(Restaurant, db.func.count(Opinion.id).label('total_dislikes')).join(
+                Opinion).filter(Opinion.opinion == 'dislike').group_by(Restaurant.id).order_by(
+                db.desc('total_dislikes')).limit(3).all()
+        else:
+            top_restaurants = []
+        return render_template('top_restaurants.html', top_restaurants=top_restaurants, criteria=criteria)
+    return render_template('top_restaurants.html', top_restaurants=None)
+
+
 def main():
     with app.app_context():
         db.create_all()
