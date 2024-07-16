@@ -6,6 +6,13 @@
         body {
             font-family: Arial, sans-serif;
         }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #f0f0f0;
+        }
         #results {
             margin-top: 20px;
         }
@@ -24,7 +31,18 @@
     </style>
 </head>
 <body>
-    <h1>Find Nearby Restaurants</h1>
+    <header>
+        <h1>Find Nearby Restaurants</h1>
+        <nav>
+            <!-- Conditional links based on user authentication status -->
+            {% if current_user.is_authenticated %}
+                <a href="/logout">Logout</a>
+            {% else %}
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            {% endif %}
+        </nav>
+    </header>
     <form id="locationForm">
         <label for="location">Enter location:</label>
         <input type="text" id="location" name="location">
@@ -36,6 +54,7 @@
     </form>
     <div id="results"></div>
     <div id="viewport"></div>
+
     <script>
         document.getElementById('locationForm').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -45,7 +64,7 @@
             fetch('/find_places', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: `location=${encodeURIComponent(location)}&radius=${encodeURIComponent(radius)}`
             })
@@ -94,7 +113,7 @@
             fetch('/opinion', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 body: `restaurant_id=${restaurantId}&opinion=${opinion}`
             })
