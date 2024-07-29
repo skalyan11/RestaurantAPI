@@ -3,6 +3,8 @@ import { navItems } from '../constants';
 import {useState} from "react";
 import logo1 from '../assets/logo1.png';
 import logo2 from '../assets/logo2.png';
+import test from '../assets/test.png';
+
 
 
 const Navbar = () => {
@@ -11,7 +13,7 @@ const Navbar = () => {
       <div className="container px-4 mx-auto relative text-sm">
         <div className="flex justify-between items-center">
           <div className="flex items-center flex-shrink-0">
-            <img className="h-10 w-auto mr-2 object-contain" src={logo1} alt="logo" />
+            <img className="h-10 w-auto mr-2 object-contain" src={test} alt="logo" />
             <span className="text-xl tracking-tight">
               Discoverable
             </span>
