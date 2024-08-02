@@ -5,3 +5,7 @@ HeroSectionBackground.mp4 filter=lfs diff=lfs merge=lfs -text
 .mp4 filter=lfs diff=lfs merge=lfs -text
 public/videos/RestaurantApiDescription.mp4 filter=lfs diff=lfs merge=lfs -text
 public/videos/HeroSectionBackground.mp4 filter=lfs diff=lfs merge=lfs -text
+*mp4 filter=lfs diff=lfs merge=lfs -text
+mp4 filter=lfs diff=lfs merge=lfs -text
+HeroSectionBackground.mp4 filter=lfs diff=lfs merge=lfs -text
+.mp4 filter=lfs diff=lfs merge=lfs -text
