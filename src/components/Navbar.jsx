@@ -1,12 +1,23 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { navItems } from '../constants';
-import {useState} from "react";
 import logo1 from '../assets/logo1.png';
 import logo2 from '../assets/logo2.png';
 import test from '../assets/test.png';
-import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleSignInClick = () => {
+    console.log('Navigating to sign-in page');
+    navigate('/signin'); // Navigate to the sign-in page
+  };
+
+  const handleCreateAccountClick = () => {
+    console.log('Navigating to create account page');
+    navigate('/create-account'); // Navigate to the create account page
+  };
+
   return (
     <nav className="sticky top-0 z-50 py-3 backdrop-blur-lg border-b border-neutral-700/80">
       <div className="container px-4 mx-auto relative text-sm">
@@ -28,12 +39,12 @@ const Navbar = () => {
             ))}
           </ul>
           <div className="flex space-x-6">
-            <Link to="/signin" className="py-2 px-3 hover:text-blue-300 border rounded-md">
+            <button onClick={handleSignInClick} className="py-2 px-3 hover:text-blue-300 border rounded-md">
               Sign In
-            </Link>
-            <a href="#" className="py-2 px-3 rounded-md bg-gradient-to-r from-teal-100 to-teal-200">
+            </button>
+            <button onClick={handleCreateAccountClick} className="py-2 px-3 rounded-md bg-gradient-to-r from-teal-100 to-teal-200">
               Create an Account
-            </a>
+            </button>
           </div>
         </div>
       </div>
