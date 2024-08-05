@@ -1,21 +1,17 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import HomePage from './components/HomePage';
-import SignInPage from './components/SignInPage';
-import CreateAccountPage from './components/CreateAccountPage';
-import LoginSignUp from './components/LoginSignUp/LoginSignUp';
+import React from 'react'
+import Navbar from './components/Navbar'
+import HeroSection from './components/HeroSection'
 
-function App() {
+const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/signin" element={<LoginSignUp />} />
-        <Route path="/create-account" element={<CreateAccountPage />} />
-        {/* Add other routes as needed */}
-      </Routes>
-    </Router>
+    <>
+      <Navbar />
+      <div className="max-w-7xl mx-auto pt-20 px-6"> 
+      <HeroSection />
+      </div>
+    </>
+  
   );
-}
+};
 
 export default App;
