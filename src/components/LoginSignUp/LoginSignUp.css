@@ -1,13 +1,23 @@
+/* Eliminate default margin and padding for body and html */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
 .loginSignUpWrapper {
     margin: 0;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smooting: grayscale;
-    height: 100vh;
+    min-height: 100vh; /* Ensure it covers full height */
     background: linear-gradient(#2A00B7, #42006C);
+    display: flex; 
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
 }
 
-.LScontainer{
+.LScontainer {
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -17,7 +27,7 @@
     padding-bottom: 30px;
 }
 
-.LSheader{
+.LSheader {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,41 +36,41 @@
     margin-top: 30px;
 }
 
-.LStext{
+.LStext {
     color: #3c009d;
     font-size: 48px;
     font-weight: 700;
 }
 
-.LSunderline{
+.LSunderline {
     width: 61px;
     height: 6px;
     background: #3c009d;
-    border-radius: 9px
+    border-radius: 9px;
 }
 
-.LSinputs{
+.LSinputs {
     margin-top: 55px;
     display: flex;
     flex-direction: column;
     gap: 25px;
 }
 
-.LSinput{
+.LSinput {
     display: flex;
     align-items: center;
     margin: auto;
     width: 480px;
     height: 80px;
     background: #eaeaea;
-    border: radius 6px;
+    border-radius: 6px; 
 }
 
-.LSinput img{
+.LSinput img {
     margin: 0px 30px;
 }
 
-.LSinput input{
+.LSinput input {
     height: 50px;
     width: 400px;
     background: transparent;
@@ -74,7 +84,7 @@
     padding-left: 62px;
     margin-top: 27px;
     color: #797979;
-    font-size:18px
+    font-size:18px;
 }
 
 .LSforgot-password span {
@@ -82,8 +92,7 @@
     cursor: pointer;
 }
 
-
-.LSsubmit-container{
+.LSsubmit-container {
     display: flex;
     gap: 30px;
     margin: 60px auto;
