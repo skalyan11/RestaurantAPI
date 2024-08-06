@@ -35,7 +35,7 @@ const LoginSignUp = () => {
           </div>
         </div>
       
-        <div className="LSforgot-password">Lost Password? <span>Click Here!</span></div>
+        <div className="LSforgot-password">Forgot Password? <span>Click Here!</span></div>
 
         <div className="LSsubmit-container">
           <div className="LSsubmit">Sign Up</div>
