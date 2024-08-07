@@ -1,25 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LoginSignUp.css';
 import user_icon from '../Assets/person.png';
 import email_icon from '../Assets/email.png';
 import password_icon from '../Assets/password.png';
 
-const LoginSignUp = () => {
+const LoginSignUp = ({ isLogin }) => {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false);
 
-  const handleLoginClick = () => {
-    setIsLogin(true);
-  };
-
-  const handleSignUpClick = () => {
-    setIsLogin(false);
-  };
-
-  const handleLogin = () => {
-    // You could add your login logic here before redirecting
-    navigate('/welcome');
+  const handleSubmit = () => {
+    if (isLogin) {
+      // Login logic here
+      navigate('/welcome');  // Assuming '/welcome' is your target route after login
+    } else {
+      // Signup logic here
+      navigate('/welcome');  // Assuming '/welcome' is your target route after signup
+    }
   };
 
   return (
@@ -49,18 +45,8 @@ const LoginSignUp = () => {
           <div className="LSforgot-password">Forgot Password? <span>Click Here!</span></div>
         )}
         <div className="LSsubmit-container">
-          <div 
-            className={`LSsubmit ${!isLogin ? '' : 'notActive'}`} 
-            onClick={handleSignUpClick}
-          >
-            Sign Up
-          </div>
-          <div 
-            className={`LSsubmit ${isLogin ? '' : 'notActive'}`} 
-            onClick={handleLoginClick}
-          >
-            Login
-          </div>
+          <button className={`LSsubmit ${!isLogin ? 'active' : ''}`} onClick={() => handleSubmit(false)}>Sign Up</button>
+          <button className={`LSsubmit ${isLogin ? 'active' : ''}`} onClick={() => handleSubmit(true)}>Login</button>
         </div>
       </div>
     </div>
