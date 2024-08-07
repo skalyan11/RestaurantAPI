@@ -15,16 +15,29 @@ html, body {
     display: flex; 
     align-items: center; /* Center content vertically */
     justify-content: center; /* Center content horizontally */
+    position: relative; /* To position the logo */
+}
+
+.logo-link {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.logo {
+    height: 40px; /* Adjust as needed */
+    width: auto;
+    cursor: pointer;
 }
 
 .LScontainer {
     display: flex;
     flex-direction: column;
     margin: auto;
-    margin-top: 200px;
     width: 600px;
     background: #fff;
     padding-bottom: 30px;
+    border-radius: 10px;
 }
 
 .LSheader {
@@ -105,17 +118,42 @@ html, body {
     width: 220px;
     height: 59px;
     color: #fff;
-    background: #3A86FF; /* Blue */
     border-radius: 50px;
     font-size: 19px;
     font-weight: 700;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.LSsubmit.notActive {
-    background: gray; /* Gray for the active button */
+.LSsubmit.active {
+    background-color: #3A86FF; /* Blue for the active button */
+}
+
+.LSsubmit.inactive {
+    background-color: gray; /* Gray for the inactive button */
 }
 
 .LSsubmit:hover {
-    background-color: #0056b3;
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.form .form-element {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.form .form-element.name {
+    transition-delay: 0.1s;
+}
+
+.form .form-element.email {
+    transition-delay: 0.2s;
+}
+
+.form .form-element.password {
+    transition-delay: 0.3s;
+}
+
+.form .form-element.submit-btn {
+    transition-delay: 0.4s;
 }

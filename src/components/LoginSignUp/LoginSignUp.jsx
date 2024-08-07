@@ -1,25 +1,29 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import './LoginSignUp.css';
 import user_icon from '../Assets/person.png';
 import email_icon from '../Assets/email.png';
 import password_icon from '../Assets/password.png';
+import test from '../../assets/test.png';
 
-const LoginSignUp = ({ isLogin }) => {
+const LoginSignUp = ({ isLogin: initialIsLogin }) => {
   const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(initialIsLogin);
 
   const handleSubmit = () => {
-    if (isLogin) {
-      // Login logic here
-      navigate('/welcome');  // Assuming '/welcome' is your target route after login
-    } else {
-      // Signup logic here
-      navigate('/welcome');  // Assuming '/welcome' is your target route after signup
-    }
+    // Redirect to welcome page after form submission
+    navigate('/welcome');
+  };
+
+  const handleModeSwitch = (loginMode) => {
+    setIsLogin(loginMode);
   };
 
   return (
     <div className='loginSignUpWrapper'>
+      <Link to="/" className="logo-link">
+        <img className="logo" src={test} alt="logo" />
+      </Link>
       <div className='LScontainer'>
         <div className="LSheader">
           <div className="LStext">{isLogin ? 'Login' : 'Sign Up'}</div>
@@ -45,8 +49,18 @@ const LoginSignUp = ({ isLogin }) => {
           <div className="LSforgot-password">Forgot Password? <span>Click Here!</span></div>
         )}
         <div className="LSsubmit-container">
-          <button className={`LSsubmit ${!isLogin ? 'active' : ''}`} onClick={() => handleSubmit(false)}>Sign Up</button>
-          <button className={`LSsubmit ${isLogin ? 'active' : ''}`} onClick={() => handleSubmit(true)}>Login</button>
+          <button
+            className={`LSsubmit ${isLogin ? 'inactive' : 'active'}`}
+            onClick={() => isLogin ? handleModeSwitch(false) : handleSubmit()}
+          >
+            Sign Up
+          </button>
+          <button
+            className={`LSsubmit ${isLogin ? 'active' : 'inactive'}`}
+            onClick={() => isLogin ? handleSubmit() : handleModeSwitch(true)}
+          >
+            Login
+          </button>
         </div>
       </div>
     </div>
