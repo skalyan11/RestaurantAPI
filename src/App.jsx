@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/signin" element={<LoginSignUp />} />
-        <Route path="/welcome" element={<WelcomePage />} />
+        <Route path="/signin" component={SignInPage} />
         <Route path="/create-account" element={<CreateAccountPage />} />
         {/* Add other routes as needed */}
       </Routes>
