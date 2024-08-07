@@ -15,7 +15,7 @@ const WelcomePage = ({ user }) => {
   return (
     <div style={{ textAlign: 'center', marginTop: '20%' }}>
       <h1>Welcome, {user}!</h1>
-      <button onClick={() => navigate('/sign-in')} style={{ padding: '10px 20px' }}>
+      <button onClick={() => navigate('/signin')} style={{ padding: '10px 20px' }}>
         Logout
       </button>
     </div>
