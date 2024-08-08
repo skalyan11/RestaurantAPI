@@ -50,8 +50,9 @@ function FindRestaurants() {
   };
 
   return (
+    <div className="findRestaurantsWrapper">
     <div className="App">
-      <h1>Find Nearby Restaurants</h1>
+      <h1 className='Title'>Find Nearby Restaurants</h1>
       <div>
         <label>
           Enter location:
@@ -110,6 +111,7 @@ function FindRestaurants() {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 }
