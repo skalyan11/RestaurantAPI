@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import LoginSignUp from './components/LoginSignUp/LoginSignUp';
 import WelcomePage from './components/WelcomePage';
+import FindRestaurants from './components/FindRestaurants'; // Import the new component
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/signin" element={<LoginSignUp isLogin={true} />} />
         <Route path="/create-account" element={<LoginSignUp isLogin={false} />} />
-        <Route path="/welcome" element={<WelcomePage />} /> {/* Add the new route */}
+        <Route path="/welcome" element={<WelcomePage />} />
+        <Route path="/find-restaurants" element={<FindRestaurants />} /> {/* Add the new route */}
       </Routes>
     </Router>
   );

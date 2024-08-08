@@ -1,0 +1,21 @@
+/* Add styles specific to the FindRestaurants component */
+.restaurant {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  .opinion-buttons button {
+    margin-right: 5px;
+  }
+  
+  #viewport {
+    margin-top: 20px;
+  }
+  
+  #top-results .restaurant {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
