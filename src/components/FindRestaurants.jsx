@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import './FindRestaurants.css'; // Rename the CSS file to avoid conflicts
+import './FindRestaurants.css';
+import SwipeableCard from './SwipeableCard';
+import './SwipeableCard.css';
 
 function FindRestaurants() {
   const [location, setLocation] = useState('');
@@ -18,7 +20,8 @@ function FindRestaurants() {
         address: '123 Mock St, Mock City',
         rating: '4.5',
         open_now: true,
-        total_ratings: 150
+        total_ratings: 150,
+        image: 'https://via.placeholder.com/300x400', // Mocked image URL
       },
       // Add more mocked restaurants as needed
     ];
@@ -31,8 +34,20 @@ function FindRestaurants() {
     setViewport(mockedViewport);
   };
 
-  const submitOpinion = (restaurantId, opinion) => {
-    alert(`Opinion submitted for restaurant ID ${restaurantId}: ${opinion}`);
+  const handleSwipe = (direction, restaurant) => {
+    switch (direction) {
+      case 'right':
+        alert(`Liked ${restaurant.name}`);
+        break;
+      case 'left':
+        alert(`Disliked ${restaurant.name}`);
+        break;
+      case 'up':
+        alert(`No opinion on ${restaurant.name}`);
+        break;
+      default:
+        break;
+    }
   };
 
   const fetchTopRestaurants = () => {
@@ -51,8 +66,7 @@ function FindRestaurants() {
 
   return (
     <div className="findRestaurantsWrapper">
-    <div className="App">
-      <h1 className='Title'>Find Nearby Restaurants</h1>
+      <h1 className="Title">Find Nearby Restaurants</h1>
       <div>
         <label>
           Enter location:
@@ -66,21 +80,14 @@ function FindRestaurants() {
         <br />
         <button onClick={findPlaces}>Find</button>
       </div>
-      <div id="results">
-        {restaurants.map((restaurant) => (
-          <div key={restaurant.id} className="restaurant">
-            <strong>{restaurant.name}</strong><br />
-            Address: {restaurant.address}<br />
-            Rating: {restaurant.rating}<br />
-            Open Now: {restaurant.open_now ? 'Yes' : 'No'}<br />
-            Total Ratings: {restaurant.total_ratings}<br />
-            <div className="opinion-buttons">
-              <button onClick={() => submitOpinion(restaurant.id, 'like')}>Like</button>
-              <button onClick={() => submitOpinion(restaurant.id, 'dislike')}>Dislike</button>
-              <button onClick={() => submitOpinion(restaurant.id, 'no_opinion')}>No Opinion</button>
-            </div>
-          </div>
-        ))}
+      <div className="card-container">
+        {restaurants.length > 0 ? (
+          restaurants.map((restaurant) => (
+            <SwipeableCard key={restaurant.id} restaurant={restaurant} onSwipe={handleSwipe} />
+          ))
+        ) : (
+          <p className="Title">No restaurants found. Please search above.</p>
+        )}
       </div>
       <div id="viewport">
         {viewport && (
@@ -111,7 +118,6 @@ function FindRestaurants() {
           </div>
         ))}
       </div>
-    </div>
     </div>
   );
 }

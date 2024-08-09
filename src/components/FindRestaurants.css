@@ -1,38 +1,104 @@
-/* Add styles specific to the FindRestaurants component */
+/* General Page Styles */
 .findRestaurantsWrapper {
     margin: 0;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh; /* Ensure it covers full height */
-    background: linear-gradient(to bottom, #2A9D8F, #8AB6D6, #3A86FF); /* Adjusted colors */
+    background: linear-gradient(to bottom right, #2A9D8F, #3A86FF); /* Adjusted colors */
     display: flex; 
+    flex-direction: column;
     align-items: center; /* Center content vertically */
-    justify-content: center; /* Center content horizontally */
-    position: relative; /* To position the logo */
+    justify-content: flex-start; /* Align content to start */
+    padding: 20px;
 }
 
+/* Title Styles */
 .Title {
-    font-size: 24px;
+    font-size: 36px;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.restaurant {
-    margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ddd;
-  }
-  
-  .opinion-buttons button {
-    margin-right: 5px;
-  }
-  
-  #viewport {
+/* Input and Button Styles */
+.findRestaurantsWrapper label {
+    font-size: 16px;
+    color: #fff;
+}
+
+.findRestaurantsWrapper input {
+    margin-left: 10px;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 10px;
+}
+
+.findRestaurantsWrapper button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background-color: #2A9D8F;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.findRestaurantsWrapper button:hover {
+    background-color: #21867A;
+}
+
+/* Card Container Styles */
+.card-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    height: 400px; /* Adjust the height based on your card size */
+}
+
+/* Viewport Styles */
+#viewport {
     margin-top: 20px;
-  }
-  
-  #top-results .restaurant {
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* Top Restaurants Section */
+h2 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 40px;
+}
+
+#top-results .restaurant {
+    background-color: #fff;
     margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ddd;
-  }
-  
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Opinion Buttons */
+.opinion-buttons button {
+    margin-right: 5px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background-color: #3A86FF;
+    color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.opinion-buttons button:hover {
+    background-color: #2A6AC1;
+}
