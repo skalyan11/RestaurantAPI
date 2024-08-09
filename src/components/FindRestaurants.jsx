@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './FindRestaurants.css';
 import SwipeableCard from './SwipeableCard';
 import './SwipeableCard.css';
+import test from '../assets/test.png'; // Adjust the path as necessary
 
 function FindRestaurants() {
   const [location, setLocation] = useState('');
@@ -66,6 +67,9 @@ function FindRestaurants() {
 
   return (
     <div className="findRestaurantsWrapper">
+      <a href="/" className="logo-link"> {/* Wrap the logo in an anchor tag */}
+        <img src={test} alt="Logo" className="logo" /> {/* Your logo */}
+      </a>
       <h1 className="Title">Find Nearby Restaurants</h1>
       <div>
         <label>
