@@ -45,3 +45,11 @@
   color: #f39c12; /* Yellow for Skip */
   opacity: 1;
 }
+
+.name {
+  color: #fff; /* Green text color */
+  font-size: 24px;
+  -webkit-text-stroke: 1px #000; /* 2px black stroke around each letter */
+}
+
+

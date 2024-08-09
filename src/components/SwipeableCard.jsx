@@ -27,7 +27,7 @@ const SwipeableCard = ({ restaurant, onSwipe }) => {
         style={{ backgroundImage: 'url(' + restaurant.image + ')' }}
         className="card"
       >
-        <h3>{restaurant.name}</h3>
+        <div className='name'>{restaurant.name}</div>
         {swipeDirection && (
           <div className={`swipe-feedback ${swipeDirection}`}>
             {swipeDirection === 'right' && 'Like'}
