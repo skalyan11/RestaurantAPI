@@ -4,8 +4,7 @@ import { fileURLToPath } from 'url';
 import bodyParser from 'body-parser';
 import knex from 'knex';
 import cors from 'cors';
-
-
+import bcrypt from 'bcrypt';
 
 // Initialize knex for database connection
 const db = knex({
@@ -21,36 +20,55 @@ const db = knex({
 // Create Express app
 const app = express();
 app.use(cors());
-
-// Middleware to parse JSON request bodies
 app.use(bodyParser.json());
 
-// Determine build path
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const buildPath = path.join(__dirname, 'client/build');
-
-// Serve static files from the React app
 app.use(express.static(buildPath));
 
 // Endpoint to register a user
-app.post('/register-user', (req, res) => {
+app.post('/register-user', async (req, res) => {
     const { name, email, password } = req.body;
     if (!name.length || !email.length || !password.length) {
-        return res.json('All fields are required');
+        return res.status(400).json({ message: 'All fields are required' });
     }
-    db("users").insert({ name, email, password })
-        .returning(["name", "email"])
-        .then(data => {
-            res.json(data[0]);
-        })
-        .catch(err => {
-            if (err.detail && err.detail.includes('already exists')) {
-                res.json('Email already exists');
-            } else {
-                res.status(500).json('An error occurred while registering the user');
-            }
-        });
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await db('users').insert({ name, email, password: hashedPassword });
+        res.status(201).json({ message: 'User created successfully!' });
+    } catch (err) {
+        if (err.detail && err.detail.includes('already exists')) {
+            res.status(409).json({ message: 'Email already exists' });
+        } else {
+            res.status(500).json({ message: 'An error occurred while registering the user' });
+        }
+    }
+});
+
+// Endpoint to login a user
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+    if (!email.length || !password.length) {
+        return res.status(400).json({ message: 'Email and password are required' });
+    }
+
+    try {
+        const user = await db('users').where('email', email).first();
+        if (!user) {
+            return res.status(401).json({ message: 'Invalid email or password' });
+        }
+
+        const isValidPassword = await bcrypt.compare(password, user.password);
+        if (!isValidPassword) {
+            return res.status(401).json({ message: 'Invalid email or password' });
+        }
+
+        res.json({ message: 'Login successful', success: true, user: { name: user.name, email: user.email } });
+    } catch (err) {
+        res.status(500).json({ message: 'An error occurred while logging in' });
+    }
 });
 
 // The "catchall" handler: for any request that doesn't

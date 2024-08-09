@@ -107,7 +107,8 @@ html, body {
 
 .LSsubmit-container {
     display: flex;
-    gap: 30px;
+    justify-content: center; /* Center the buttons within the container */
+    gap: 20px;
     margin: 60px auto;
 }
 
@@ -135,6 +136,25 @@ html, body {
 
 .LSsubmit:hover {
     background-color: #0056b3; /* Darker blue on hover */
+}
+
+.LSswitch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 59px;
+    color: #fff;
+    background-color: gray; /* Gray for the switch button */
+    border-radius: 50px;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.LSswitch:hover {
+    background-color: #7f8c8d; /* Darker gray on hover */
 }
 
 .form .form-element {
