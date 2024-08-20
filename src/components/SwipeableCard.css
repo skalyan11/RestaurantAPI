@@ -1,5 +1,12 @@
 .swipe {
   position: absolute;
+  width: 300px;
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 }
 
 .card {

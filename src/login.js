@@ -77,8 +77,18 @@ app.get('*', (req, res) => {
     res.sendFile(path.join(buildPath, 'index.html'));
 });
 
-// Start the server
+
+// Start the server with error handling
 const port = process.env.PORT || 3000;
+
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
+}).on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+        console.error(`Port ${port} is already in use. Please use a different port.`);
+        process.exit(1);
+    } else {
+        console.error(err);
+        process.exit(1);
+    }
 });

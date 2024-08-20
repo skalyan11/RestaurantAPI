@@ -5,7 +5,7 @@ import cors from 'cors';
 const app = express();
 app.use(cors());
 
-const GOOGLE_PLACES_API_KEY = 'AIzaSyCbRJ7FrdlcDs_h4tUp-fHyRCtFSZoDWhQ'; // Replace with your actual API key
+const GOOGLE_PLACES_API_KEY = ''; // Replace with your actual API key
 
 const getCoordinates = async (placeName) => {
   try {
@@ -66,6 +66,9 @@ app.get('/api/find_places', async (req, res) => {
   }
 });
 
-app.listen(5000, () => {
-  console.log('Server running on http://localhost:5000');
+// Use an environment variable to set the port, with a default fallback
+const PORT = process.env.PORT || 5001;
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });

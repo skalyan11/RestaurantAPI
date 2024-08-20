@@ -21,7 +21,7 @@ function FindRestaurants() {
     console.log("Location entered:", location); // Debugging line
 
     try {
-      const response = await axios.get('http://localhost:5000/api/find_places', {
+      const response = await axios.get('http://localhost:5001/api/find_places', {
         params: {
           location, // Send the location as a query parameter
           radius,   // Send the radius as a query parameter

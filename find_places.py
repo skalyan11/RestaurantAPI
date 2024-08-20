@@ -1,6 +1,9 @@
 import requests
 from place_convert import get_coordinates as gc, create_viewport as cv
 from models import db, Restaurant  # Import from models.py
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def find_places(location, radius):
     place_name = location
