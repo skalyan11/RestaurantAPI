@@ -1,5 +1,7 @@
+/* General Styles */
 .findRestaurantsWrapper {
     margin: 0;
+    padding: 20px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -7,9 +9,17 @@
     background: linear-gradient(to bottom right, #2A9D8F, #3A86FF); /* Adjusted colors */
     display: flex; 
     flex-direction: column;
-    align-items: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
     justify-content: flex-start; /* Align content to start */
-    padding: 20px;
+}
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 900px; /* Restricting the width for layout purposes */
+    align-items: center;
 }
 
 /* Logo Styles */
@@ -23,8 +33,25 @@
     height: auto;
 }
 
+/* Search Again Button Styles */
+.search-again-button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background-color: #28a745; /* Set to green */
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 10px 0;
+}
+
+.search-again-button:hover {
+    background-color: #218838;
+}
+
 /* Title Styles */
-.Title {
+.Title, h1.title {
     font-size: 36px;
     font-weight: 700;
     color: #fff;
@@ -32,22 +59,30 @@
     margin-bottom: 20px;
 }
 
-/* Input and Button Styles */
-.findRestaurantsWrapper label {
-    font-size: 16px;
+/* Search Section Styles */
+.search-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
     color: #fff;
 }
 
-.findRestaurantsWrapper input {
-    margin-left: 10px;
+.search-section label {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.search-section input {
+    margin-left: 10px; /* Margin between label and input */
     padding: 8px;
     border-radius: 8px;
     border: none;
     margin-bottom: 10px;
-    color:#000000
+    color: #000;
 }
 
-.findRestaurantsWrapper button {
+.search-section button {
     padding: 10px 20px;
     border-radius: 8px;
     border: none;
@@ -59,7 +94,7 @@
     transition: background-color 0.3s ease;
 }
 
-.findRestaurantsWrapper button:hover {
+.search-section button:hover {
     background-color: #21867A;
 }
 
@@ -83,15 +118,48 @@
 }
 
 /* Top Restaurants Section */
-h2 {
+.top-restaurants-section {
+    text-align: center;
+    margin-top: 40px;
+    color: #fff;
+}
+
+.top-restaurants-section h2 {
     font-size: 28px;
     font-weight: 600;
+}
+
+.top-restaurants-section label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.top-restaurants-section select {
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    color: #000;
+}
+
+.top-restaurants-section button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background-color: #2A9D8F;
     color: #fff;
-    margin-top: 40px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.top-restaurants-section button:hover {
+    background-color: #21867A;
 }
 
 #top-results .restaurant {
     background-color: #fff;
+    color: #333;
     margin: 10px 0;
     padding: 15px;
     border-radius: 10px;
@@ -106,10 +174,15 @@ h2 {
     border: none;
     cursor: pointer;
     background-color: #3A86FF;
-    color: #000000;
+    color: #fff;
     transition: background-color 0.3s ease;
 }
 
 .opinion-buttons button:hover {
     background-color: #2A6AC1;
+}
+
+/* Hidden Text for No Restaurants Found */
+.hidden-text {
+    display: none;
 }

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import TinderCard from 'react-tinder-card';
 import './SwipeableCard.css';
 
-
 const SwipeableCard = ({ restaurant, onSwipe }) => {
   const [swipeDirection, setSwipeDirection] = useState(null);
 

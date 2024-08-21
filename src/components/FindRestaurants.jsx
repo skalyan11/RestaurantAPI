@@ -14,18 +14,13 @@ function FindRestaurants() {
   const [viewport, setViewport] = useState(null);
   const [criteria, setCriteria] = useState('most_likes');
   const [topRestaurants, setTopRestaurants] = useState([]);
-  const [opinions, setOpinions] = useState({}); // Store user opinions
-
+  const [opinions, setOpinions] = useState({});
+  const [showSearch, setShowSearch] = useState(true); // State to toggle search visibility
 
   const findPlaces = async () => {
-    console.log("Location entered:", location); // Debugging line
-
     try {
       const response = await axios.get('http://localhost:5001/api/find_places', {
-        params: {
-          location, // Send the location as a query parameter
-          radius,   // Send the radius as a query parameter
-        },
+        params: { location, radius },
       });
 
       if (response.data.status === 'OK' && response.data.results.length > 0) {
@@ -42,12 +37,9 @@ function FindRestaurants() {
         }));
 
         setRestaurants(restaurantsData);
-        setViewport({
-          northeast: response.data.results[0].geometry.viewport.northeast,
-          southwest: response.data.results[0].geometry.viewport.southwest,
-        });
+        setViewport(response.data.results[0].geometry.viewport);
+        setShowSearch(false); // Hide the search section after finding places
       } else {
-        console.error('Error: No restaurants found');
         alert('No restaurants found in this area.');
       }
     } catch (error) {
@@ -57,20 +49,14 @@ function FindRestaurants() {
   };
 
   const handleSwipe = (direction, restaurant) => {
-    let opinion;
-    switch (direction) {
-      case 'right':
-        opinion = 'like';
-        break;
-      case 'left':
-        opinion = 'dislike';
-        break;
-      case 'up':
-        opinion = 'no_opinion';
-        break;
-      default:
-        return;
-    }
+    const opinionsMap = {
+      'right': 'like',
+      'left': 'dislike',
+      'up': 'no_opinion',
+    };
+
+    const opinion = opinionsMap[direction];
+    if (!opinion) return;
 
     setOpinions((prevOpinions) => ({
       ...prevOpinions,
@@ -93,69 +79,68 @@ function FindRestaurants() {
       }
     });
 
-    let sortedRestaurants = [];
-    if (criteria === 'most_likes') {
-      sortedRestaurants = Object.keys(opinionCounts)
-        .map((name) => ({
-          restaurant: name,
-          address: restaurants.find((r) => r.name === name).address,
-          count: opinionCounts[name].like,
-        }))
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 3);
-    } else if (criteria === 'most_dislikes') {
-      sortedRestaurants = Object.keys(opinionCounts)
-        .map((name) => ({
-          restaurant: name,
-          address: restaurants.find((r) => r.name === name).address,
-          count: opinionCounts[name].dislike,
-        }))
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 3);
-    }
+    const sortedRestaurants = Object.keys(opinionCounts)
+      .map((name) => ({
+        restaurant: name,
+        address: restaurants.find((r) => r.name === name).address,
+        count: opinionCounts[name][criteria === 'most_likes' ? 'like' : 'dislike'],
+      }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 3);
 
     setTopRestaurants(sortedRestaurants);
   };
 
   return (
     <div className="findRestaurantsWrapper">
-      <a href="/" className="logo-link">
-        <img src={test} alt="Logo" className="logo" />
-      </a>
-      <h1 className="Title">Find Nearby Restaurants</h1>
-      <div>
-        <label>
-          Enter location:
-          <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
-        </label>
-        <br />
-        <label>
-          Enter radius (in meters):
-          <input type="number" value={radius} onChange={(e) => setRadius(e.target.value)} />
-        </label>
-        <br />
-        <button onClick={findPlaces}>Find</button>
+      <div className="header">
+        <a href="/" className="logo-link">
+          <img src={test} alt="Logo" className="logo" />
+        </a>
+        {!showSearch && (
+          <button className="search-again-button" onClick={() => setShowSearch(true)}>
+            Search Again
+          </button>
+        )}
       </div>
+      <h1 className="title">Find Nearby Restaurants</h1>
+      
+      {showSearch && (
+        <div className="search-section">
+          <label>
+            Enter location:
+            <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} />
+          </label>
+          <br />
+          <label>
+            Enter radius (in meters):
+            <input type="number" value={radius} onChange={(e) => setRadius(e.target.value)} />
+          </label>
+          <br />
+          <button onClick={findPlaces}>Find</button>
+        </div>
+      )}
+
       <div className="card-container">
         {restaurants.length > 0 ? (
           restaurants.map((restaurant) => (
             <SwipeableCard key={restaurant.id} restaurant={restaurant} onSwipe={handleSwipe} />
           ))
         ) : (
-          <p className="Title">No restaurants found. Please search above.</p>
+          <p className={showSearch ? "title" : "hidden-text"}>No restaurants found. Please search above.</p>
         )}
       </div>
-      <div id="viewport">
-        {viewport && (
-          <>
-            <strong>Viewport</strong><br />
-            Northeast: ({viewport.northeast.lat}, {viewport.northeast.lng})<br />
-            Southwest: ({viewport.southwest.lat}, {viewport.southwest.lng})
-          </>
-        )}
-      </div>
-      <h2>Top 3 Restaurants</h2>
-      <div>
+
+      {viewport && (
+        <div id="viewport" className="viewport">
+          <strong>Viewport</strong><br />
+          Northeast: ({viewport.northeast.lat}, {viewport.northeast.lng})<br />
+          Southwest: ({viewport.southwest.lat}, {viewport.southwest.lng})
+        </div>
+      )}
+      
+      <div className="top-restaurants-section">
+        <h2>Top 3 Restaurants</h2>
         <label>
           Select criteria:
           <select value={criteria} onChange={(e) => setCriteria(e.target.value)}>
@@ -164,15 +149,16 @@ function FindRestaurants() {
           </select>
         </label>
         <button onClick={fetchTopRestaurants}>Show Top 3</button>
-      </div>
-      <div id="top-results">
-        {topRestaurants.map((restaurant) => (
-          <div key={restaurant.restaurant} className="restaurant">
-            <strong>{restaurant.restaurant}</strong><br />
-            Address: {restaurant.address}<br />
-            Count: {restaurant.count}
-          </div>
-        ))}
+
+        <div id="top-results">
+          {topRestaurants.map((restaurant) => (
+            <div key={restaurant.restaurant} className="restaurant">
+              <strong>{restaurant.restaurant}</strong><br />
+              Address: {restaurant.address}<br />
+              Count: {restaurant.count}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

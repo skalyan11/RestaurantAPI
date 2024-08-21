@@ -1,12 +1,18 @@
+/* SwipeableCard Styles */
 .swipe {
   position: absolute;
   width: 300px;
-  height: 400px;
+  height: 430px;
   background-size: cover;
-  background-position: center;
-  border-radius: 10px;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+  background-position: center center;
+  border-radius: 20px;
   overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 20px;
+  color: #fff; /* Ensure text color is white */
+  font-size: 24px;
 }
 
 .card {
@@ -15,10 +21,9 @@
   width: 300px;
   max-width: 85vw;
   height: 400px;
-  box-shadow: 0px 18px 53px -5px rgba(0, 0, 0, 0.3);
   border-radius: 20px;
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   padding: 20px;
   box-sizing: border-box;
   display: flex;
@@ -32,7 +37,6 @@
   left: 20px;
   font-size: 32px;
   font-weight: bold;
-  color: white;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
   opacity: 0;
   transition: opacity 0.2s ease-in-out;
@@ -54,9 +58,10 @@
 }
 
 .name {
-  color: #fff; /* Green text color */
+  color: #fff; /* White text color */
   font-size: 24px;
-  -webkit-text-stroke: 1px #000; /* 2px black stroke around each letter */
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.5); /* Background with opacity for better readability */
+  border-radius: 10px;
+  align-self: flex-start; /* Align text at the top of the card */
 }
-
-
