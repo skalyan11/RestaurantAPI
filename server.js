@@ -5,7 +5,7 @@ import cors from 'cors';
 const app = express();
 app.use(cors());
 
-const GOOGLE_PLACES_API_KEY = ''; // Replace with your actual API key
+const GOOGLE_PLACES_API_KEY = 'AIzaSyCAf_kHgJYaIyOy9OLfDNtoOHIWRV_FChw'; // Replace with your actual API key
 
 const getCoordinates = async (placeName) => {
   try {

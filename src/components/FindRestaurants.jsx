@@ -4,6 +4,8 @@ import './FindRestaurants.css';
 import SwipeableCard from './SwipeableCard';
 import './SwipeableCard.css';
 import test from '../assets/test.png'; // Adjust the path as necessary
+//import { app, analytics } from '../firebaseConfig'; // Import Firebase configuration
+
 
 const GOOGLE_PLACES_API_KEY = ''; // Replace with your actual API key
 
@@ -32,7 +34,7 @@ function FindRestaurants() {
           open_now: restaurant.opening_hours?.open_now ?? 'Unknown',
           total_ratings: restaurant.user_ratings_total,
           image: restaurant.photos
-            ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${restaurant.photos[0].photo_reference}&key=${GOOGLE_PLACES_API_KEY}`
+            ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${restaurant.photos[0].photo_reference}&key=${'AIzaSyCAf_kHgJYaIyOy9OLfDNtoOHIWRV_FChw'}`
             : 'https://via.placeholder.com/300x400?text=No+Image',
         }));
 

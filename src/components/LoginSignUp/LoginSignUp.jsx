@@ -6,27 +6,56 @@ import user_icon from '../Assets/person.png';
 import email_icon from '../Assets/email.png';
 import password_icon from '../Assets/password.png';
 import test from '../../assets/test.png';
+import { doSignInWithEmailAndPassword, doSignInWithGoogle } from '../../firebase/auth';
+import { useAuth } from '../../contexts/auth/index1';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase/firebaseConfig';
 
 const LoginSignUp = ({ isLogin: initialIsLogin }) => {
   const navigate = useNavigate();
+  const userLoggedIn = useAuth();
   const [isLogin, setIsLogin] = useState(initialIsLogin);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [error, setError] = useState('');
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const endpoint = isLogin ? '/login' : '/register-user';
-    const data = isLogin ? { email, password } : { name, email, password };
-
-    try {
-      const response = await axios.post(endpoint, data);
-      alert(response.data.message);
-      if (response.data.success || response.status === 201) {
-        handleSubmit(); // Redirect to welcome page after successful form submission
+    setError('');
+    if (isLogin) {
+      if (!isSigningIn) {
+        setIsSigningIn(true);
+        try {
+          await doSignInWithEmailAndPassword(email, password);
+          navigate('/welcome');
+        } catch (error) {
+          setError('Login failed: ' + error.message);
+        }
+        setIsSigningIn(false);
       }
-    } catch (error) {
-      alert('An error occurred: ' + (error.response?.data?.message || error.message));
+    } else {
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        alert('User registered successfully');
+        handleSubmit(); // Redirect to welcome page after successful form submission
+      } catch (error) {
+        setError('An error occurred: ' + error.message);
+      }
+    }
+  };
+
+  const onGoogleSignIn = async () => {
+    if (!isSigningIn) {
+      setIsSigningIn(true);
+      try {
+        await doSignInWithGoogle();
+        navigate('/welcome');
+      } catch (error) {
+        setError('An error occurred: ' + error.message);
+      }
+      setIsSigningIn(false);
     }
   };
 
@@ -36,6 +65,7 @@ const LoginSignUp = ({ isLogin: initialIsLogin }) => {
     setName('');
     setEmail('');
     setPassword('');
+    setError('');
   };
 
   const handleSubmit = () => {
@@ -86,12 +116,14 @@ const LoginSignUp = ({ isLogin: initialIsLogin }) => {
               required
             />
           </div>
-          <div className="LSforgot-password">
-            {!isLogin && 'Forgot Password? '}
-            <span>{!isLogin && 'Click Here!'}</span>
-          </div>
+          {isLogin && (
+            <div className="LSforgot-password">
+              Forgot Password? <span>Click Here!</span>
+            </div>
+          )}
+          {error && <div className="LSerror">{error}</div>}
           <div className="LSsubmit-container">
-            <button type="submit" className={`LSsubmit ${isLogin ? 'active' : 'inactive'}`}>
+            <button type="submit" className={`LSsubmit ${isLogin ? 'active' : 'inactive'}`} disabled={isSigningIn}>
               {isLogin ? 'Login' : 'Sign Up'}
             </button>
             <button
@@ -101,6 +133,16 @@ const LoginSignUp = ({ isLogin: initialIsLogin }) => {
             >
               {isLogin ? 'Switch to Sign Up' : 'Switch to Login'}
             </button>
+            {isLogin && (
+              <button
+                type="button"
+                className="LSgoogle-signin"
+                onClick={onGoogleSignIn}
+                disabled={isSigningIn}
+              >
+                Sign in with Google
+              </button>
+            )}
           </div>
         </form>
       </div>
