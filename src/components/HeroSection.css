@@ -1,0 +1,28 @@
+/* Add this to your existing CSS file or create a new CSS file */
+.about-section {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.about-section h2 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.about-section .about-item {
+  max-width: 800px;
+  text-align: left;
+}
+
+.about-section .about-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem; /* Tailwind's rounded-lg */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind's shadow-md */
+}
+
+.about-section .about-item p {
+  margin-top: 1rem;
+  font-size: 1.125rem;
+  color: #6b7280; /* Tailwind's neutral-500 color */
+}

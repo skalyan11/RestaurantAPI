@@ -18,6 +18,9 @@ const WelcomePage = ({ user }) => {
       <button onClick={() => navigate('/signin')} style={{ padding: '10px 20px' }}>
         Logout
       </button>
+      <button onClick={() => navigate('/find-restaurants')} style={{ padding: '10px 20px' }}>
+        Find Restaurants
+      </button>
     </div>
   );
 };
