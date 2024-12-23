@@ -1,8 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { navItems } from '../constants';
-import logo1 from '../assets/logo1.png';
-import logo2 from '../assets/logo2.png';
 import test from '../assets/test.png';
 
 const Navbar = () => {
@@ -16,6 +14,11 @@ const Navbar = () => {
   const handleCreateAccountClick = () => {
     console.log('Navigating to create account page');
     navigate('/create-account'); // Navigate to the create account page
+  };
+
+  const handleDemoClick = () => {
+    console.log('Navigating to demo page');
+    navigate('/demo'); // Navigate to the demo page
   };
 
   return (
@@ -32,9 +35,18 @@ const Navbar = () => {
           <ul className="flex space-x-8 ml-10">
             {navItems.map((item, index) => (
               <li key={index}>
-                <a href={item.href} className="text-black hover:text-blue-300">
-                  {item.label}
-                </a>
+                {item.label === "Demo" ? (
+                  <button
+                    onClick={handleDemoClick}
+                    className="text-black hover:text-blue-300 bg-transparent border-none cursor-pointer"
+                  >
+                    {item.label}
+                  </button>
+                ) : (
+                  <a href={item.href} className="text-black hover:text-blue-300">
+                    {item.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>

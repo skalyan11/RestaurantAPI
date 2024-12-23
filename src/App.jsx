@@ -13,6 +13,7 @@ function App() {
         <Route path="/signin" element={<LoginSignUp isLogin={true} />} />
         <Route path="/create-account" element={<LoginSignUp isLogin={false} />} />
         <Route path="/welcome" element={<WelcomePage />} />
+        <Route path="/demo" element={<FindRestaurants />} />
         <Route path="/find-restaurants" element={<FindRestaurants />} /> {/* Add the new route */}
       </Routes>
     </Router>
