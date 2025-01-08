@@ -6,7 +6,9 @@ import { onAuthStateChanged } from 'firebase/auth';
 const AuthContext = React.createContext();
 
 export function useAuth() {
-    return useContext(AuthContext);
+    const context = useContext(AuthContext);
+    //console.log('uid', context.currentUser.uid);
+    return context;
 }
 
 export function AuthProvider({ children }) {
@@ -16,7 +18,7 @@ export function AuthProvider({ children }) {
 
     useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, initialUser);
-    return unsubscribe;
+        return unsubscribe;
     }, [])
 
     async function initialUser(user) {

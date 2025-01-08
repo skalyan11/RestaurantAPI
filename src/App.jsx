@@ -3,20 +3,23 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import LoginSignUp from './components/LoginSignUp/LoginSignUp';
 import WelcomePage from './components/WelcomePage';
-import FindRestaurants from './components/FindRestaurants'; // Import the new component
+import FindRestaurants from './components/FindRestaurants';
+import { AuthProvider } from './contexts/auth/index1';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/signin" element={<LoginSignUp isLogin={true} />} />
-        <Route path="/create-account" element={<LoginSignUp isLogin={false} />} />
-        <Route path="/welcome" element={<WelcomePage />} />
-        <Route path="/demo" element={<FindRestaurants />} />
-        <Route path="/find-restaurants" element={<FindRestaurants />} /> {/* Add the new route */}
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/signin" element={<LoginSignUp isLogin={true} />} />
+          <Route path="/create-account" element={<LoginSignUp isLogin={false} />} />
+          <Route path="/welcome" element={<WelcomePage />} />
+          <Route path="/demo" element={<FindRestaurants />} />
+          <Route path="/find-restaurants" element={<FindRestaurants />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

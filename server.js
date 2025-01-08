@@ -1,9 +1,11 @@
 import express from 'express';
 import axios from 'axios';
 import cors from 'cors';
+import { db } from './src/components/db.js'; // Ensure this path is correct
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 const GOOGLE_PLACES_API_KEY = 'AIzaSyCAf_kHgJYaIyOy9OLfDNtoOHIWRV_FChw'; // Replace with your actual API key
 
@@ -63,6 +65,21 @@ app.get('/api/find_places', async (req, res) => {
   } catch (error) {
     console.error('Error finding places:', error.message);
     res.status(500).send('Error finding places');
+  }
+});
+
+app.post('/api/swipe', async (req, res) => {
+  const { userId, restaurantId, swipeDirection } = req.body;
+  try {
+    await db('user_interactions').insert({
+      user_id: userId,
+      restaurant_id: restaurantId,
+      swipe_direction: swipeDirection
+    });
+    res.status(201).json({ message: 'Swipe interaction recorded' });
+  } catch (error) {
+    console.error('Error inserting swipe interaction:', error);
+    res.status(500).json({ message: 'Error recording swipe interaction' });
   }
 });
 
